@@ -150,6 +150,35 @@ src/
 
 ## 🌐 Deployment
 
+### GitHub Pages (Automated)
+
+This project includes a GitHub Actions workflow for automatic deployment to GitHub Pages.
+
+#### Setup Instructions:
+
+1. **Update the homepage URL** in `package.json`:
+   ```json
+   "homepage": "https://[your-username].github.io/dang-o-dong"
+   ```
+   Replace `[your-username]` with your actual GitHub username.
+
+2. **Enable GitHub Pages**:
+   - Go to your repository settings
+   - Navigate to "Pages" section
+   - Set source to "GitHub Actions"
+
+3. **Push to main branch**:
+   The workflow will automatically:
+   - Build your React app
+   - Deploy to GitHub Pages
+   - Update on every push to main/master branch
+
+#### Manual Deployment:
+```bash
+npm run build
+# Upload build/ folder contents to GitHub Pages
+```
+
 ### Vercel (Recommended)
 
 1. Push your code to GitHub

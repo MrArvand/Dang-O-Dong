@@ -2,6 +2,7 @@
   "name": "dang-o-dong",
   "version": "1.0.0",
   "description": "دَنگ و دونگ - Cost Splitting Software",
+  "homepage": "https://mrarvand.github.io/dang-o-dong",
   "private": true,
   "dependencies": {
     "@headlessui/react": "^1.7.17",
