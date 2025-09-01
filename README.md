@@ -200,9 +200,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 If you have any questions or need help, please:
 
 - Open an issue on GitHub
-- Contact: [your-email@example.com]
-- Website: [your-website.com]
+- Contact: [mr.arvand1@gmail.com]
+- Website: [arvand.dev]
 
 ---
 
-Made with ❤️ by [Your Name](https://github.com/MrArvand)
+Made with ❤️ by [Arvand](https://github.com/MrArvand)
