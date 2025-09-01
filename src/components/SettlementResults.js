@@ -33,7 +33,6 @@ const SettlementResults = ({ expenses, members }) => {
 
   // Use the new helper functions for better consistency
   const calculateTotalSpending = (memberId) => calculateTotalPaid(memberId, expenses);
-  const calculateTotalParticipation = (memberId) => calculateTotalOwed(memberId, expenses);
 
   const creditors = Object.entries(memberTotals)
     .filter(([_, balance]) => balance > 0)
@@ -42,9 +41,6 @@ const SettlementResults = ({ expenses, members }) => {
   const debtors = Object.entries(memberTotals)
     .filter(([_, balance]) => balance < 0)
     .sort(([_, a], [__, b]) => a - b);
-
-  const balanced = Object.entries(memberTotals)
-    .filter(([_, balance]) => balance === 0);
 
   // Debug logging
   console.log('Settlement Debug:', {
