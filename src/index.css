@@ -1,0 +1,98 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    direction: rtl;
+    font-family: 'Vazirmatn', sans-serif;
+  }
+
+  body {
+    margin: 0;
+    font-family: 'Vazirmatn', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    direction: rtl;
+  }
+
+  * {
+    direction: rtl;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-3 sm:px-4 rounded-lg transition-colors duration-200 text-sm sm:text-base;
+  }
+
+  .btn-secondary {
+    @apply bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-3 sm:px-4 rounded-lg transition-colors duration-200 text-sm sm:text-base;
+  }
+
+  .btn-danger {
+    @apply bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-3 sm:px-4 rounded-lg transition-colors duration-200 text-sm sm:text-base;
+  }
+
+  .btn-reset {
+    @apply bg-gray-100 hover:bg-gray-200 text-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-300 font-medium py-2 px-3 sm:px-4 rounded-lg transition-colors duration-200 border border-gray-300 dark:border-gray-600 text-sm sm:text-base;
+  }
+
+  .card {
+    @apply bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700;
+  }
+
+  .input-field {
+    @apply w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm sm:text-base;
+  }
+
+  .persian-number {
+    direction: ltr;
+    text-align: right;
+    font-family: 'Vazirmatn', monospace;
+  }
+
+  /* Ensure Persian numbers display correctly in inputs */
+  input[type="text"].persian-number {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Mobile-specific improvements */
+  @media (max-width: 640px) {
+
+    .btn-primary,
+    .btn-secondary,
+    .btn-danger,
+    .btn-reset {
+      @apply py-2.5 px-3 min-h-[44px];
+      /* Better touch targets */
+    }
+
+    .input-field {
+      @apply py-2.5 min-h-[44px];
+      /* Better touch targets */
+    }
+
+    /* Improve table responsiveness */
+    .overflow-x-auto {
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* Better spacing for mobile */
+    .space-y-4>*+* {
+      margin-top: 1rem;
+    }
+
+    .space-y-6>*+* {
+      margin-top: 1.5rem;
+    }
+  }
+
+  /* Ensure proper RTL support on mobile */
+  @media (max-width: 640px) {
+    .flex.space-x-reverse>*+* {
+      margin-right: 0.5rem;
+      margin-left: 0;
+    }
+  }
+}
