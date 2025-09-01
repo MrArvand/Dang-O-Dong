@@ -2,13 +2,10 @@ import React from 'react';
 import {
   ArrowLeftIcon,
   CheckCircleIcon,
-  ExclamationTriangleIcon,
-  CurrencyDollarIcon,
-  UserIcon,
-  CalendarIcon
+  CurrencyDollarIcon
 } from '@heroicons/react/24/outline';
 import { formatCurrency, formatCurrencyWithWords } from '../utils/persianUtils';
-import { calculateMemberTotals, calculateSettlements, calculateTotalPaid, calculateTotalOwed, calculateNetBalance } from '../utils/calculationUtils';
+import { calculateMemberTotals, calculateSettlements, calculateTotalPaid } from '../utils/calculationUtils';
 
 const SettlementResults = ({ expenses, members }) => {
   if (expenses.length === 0) {
