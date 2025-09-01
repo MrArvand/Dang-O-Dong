@@ -24,7 +24,7 @@ A modern, responsive web application for splitting expenses among friends and fa
 
 ## 🚀 Live Demo
 
-[View Live Demo](https://your-demo-link.com)
+[View Live Demo](https://mrarvand.github.io/dang-o-dong)
 
 ## 🛠️ Technology Stack
 
