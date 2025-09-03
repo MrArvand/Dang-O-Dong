@@ -1,0 +1,43 @@
+name: Deploy to Hostinger (Shared Hosting)
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        run: npm run build
+
+      - name: Create Deployment Branch
+        run: |
+          # Create a completely new branch with only build files
+          git checkout --orphan deployment
+          git rm -rf .
+          cp -r build/* .
+          git add .
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git commit -m "Deploy build files - ${{ github.sha }}"
+          git push origin deployment --force
+
+      - name: Deploy to Hostinger
+        run: |
+          echo "Build files pushed to 'deployment' branch"
+          echo "Configure Hostinger to deploy from 'deployment' branch"

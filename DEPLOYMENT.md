@@ -18,14 +18,17 @@ The repository includes a GitHub Actions workflow (`.github/workflows/hostinger-
 2. Creates a `hostinger-deploy` branch with only the built files
 3. This branch contains only the production-ready files from the `build/` directory
 
-### 2. Hostinger Git Deployment Setup
+### 2. Hostinger Git Deployment Setup (Shared Hosting)
+
+**For Shared Hosting (No SSH Access):**
 
 1. **Log in to Hostinger hPanel**
 2. **Navigate to Git section**
 3. **Create a new repository connection:**
    - Repository URL: `https://github.com/MrArvand/Dang-O-Dong.git`
-   - Branch: `hostinger-deploy` (not main!)
+   - Branch: `deployment` (not main!)
    - Install Path: Leave empty (deploys to `public_html`)
+4. **Important:** The `deployment` branch contains ONLY the built files, no source code
 
 ### 3. How It Works
 
@@ -33,13 +36,14 @@ The repository includes a GitHub Actions workflow (`.github/workflows/hostinger-
 
    - You push changes to the `main` branch
    - GitHub Actions automatically builds the project
-   - Built files are pushed to the `hostinger-deploy` branch
-   - Hostinger detects changes and deploys from `hostinger-deploy` branch
+   - Built files are pushed to the `deployment` branch (orphan branch)
+   - Hostinger detects changes and deploys from `deployment` branch
 
 2. **Deployment Process:**
    - Source files stay in `main` branch
    - Build folder remains in `.gitignore`
-   - Only production files are deployed to Hostinger
+   - `deployment` branch is completely replaced with built files each time
+   - No Git conflicts because it's an orphan branch
    - Each push to main triggers a new deployment
 
 ### 4. Alternative: Direct SSH Deployment
@@ -100,17 +104,15 @@ If using SSH deployment, add these secrets to your GitHub repository:
 1. **Deployment fails on Hostinger:**
 
    - Ensure the `public_html` directory is empty
-   - Check that the branch name matches exactly (`hostinger-deploy`)
+   - Check that the branch name matches exactly (`deployment`)
    - Verify repository URL is correct
    - **If you get "divergent branches" error:**
      - This happens when Hostinger's local Git repo conflicts with the remote
-     - **Immediate Solution:** Use SSH deployment (recommended)
-     - **Alternative Solution:** Configure Git merge strategy on Hostinger server
-       - Access Hostinger via SSH or File Manager terminal
-       - Navigate to your project directory: `cd public_html`
-       - Run: `git config pull.rebase false`
-       - Run: `git config pull.ff only`
-     - **Note:** SSH deployment is more reliable and recommended
+     - Solution: Configure Git merge strategy on Hostinger server
+     - Run this command via SSH or File Manager terminal:
+       ```bash
+       git config --global pull.rebase false
+       ```
 
 2. **Build fails in GitHub Actions:**
 
@@ -135,38 +137,19 @@ If using SSH deployment, add these secrets to your GitHub repository:
 ## Next Steps
 
 1. Push this workflow to your repository
-2. Configure Hostinger Git deployment with the `hostinger-deploy` branch
+2. Configure Hostinger Git deployment with the `deployment` branch
 3. **If you encounter "divergent branches" error on Hostinger:**
-   - Access your Hostinger server via SSH or File Manager terminal
-   - Run: `git config --global pull.rebase false`
-   - This configures Git to use merge strategy instead of rebase
+   - **For Shared Hosting:** Use the `deployment` branch workflow (recommended)
+   - **For VPS/Dedicated:** Access via SSH and run: `git config --global pull.rebase false`
+   - The `deployment` branch approach avoids conflicts entirely
 4. Test by making a small change and pushing to main
 5. Monitor the deployment process in both GitHub Actions and Hostinger
 
-## SSH Deployment (Recommended Solution)
+## Alternative: SSH Deployment (Recommended)
 
-Since Git deployment is causing persistent conflicts, we recommend using SSH deployment which is more reliable and bypasses Git conflicts entirely.
+If Git deployment continues to have issues, consider using the SSH deployment method which is more reliable:
 
-### Setup SSH Deployment:
-
-1. **Enable SSH on Hostinger:**
-   - Log in to Hostinger hPanel
-   - Go to **Advanced** → **SSH Access**
-   - Enable SSH access and note your credentials
-
-2. **Add GitHub Secrets:**
-   - Go to your GitHub repository → **Settings** → **Secrets and variables** → **Actions**
-   - Add these secrets:
-     - `HOSTINGER_HOST`: Your server hostname (e.g., `srv123.hostinger.com`)
-     - `HOSTINGER_USERNAME`: Your SSH username
-     - `HOSTINGER_PASSWORD`: Your SSH password
-     - `HOSTINGER_PORT`: SSH port (usually `22`)
-
-3. **Use the SSH Workflow:**
-   - The repository includes `.github/workflows/hostinger-ssh-deploy.yml`
-   - This workflow builds your app and directly uploads files via SSH
-   - No Git conflicts or branch issues
-
-4. **Disable Git Deployment:**
-   - Remove the Git deployment configuration from Hostinger
-   - This prevents conflicts between SSH and Git deployment methods
+1. Enable SSH access on your Hostinger account
+2. Use the SSH workflow provided in section 4 of this guide
+3. Add your Hostinger credentials as GitHub secrets
+4. This method directly uploads files without Git conflicts
