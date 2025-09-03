@@ -104,11 +104,13 @@ If using SSH deployment, add these secrets to your GitHub repository:
    - Verify repository URL is correct
    - **If you get "divergent branches" error:**
      - This happens when Hostinger's local Git repo conflicts with the remote
-     - Solution: Configure Git merge strategy on Hostinger server
-     - Run this command via SSH or File Manager terminal:
-       ```bash
-       git config --global pull.rebase false
-       ```
+     - **Immediate Solution:** Use SSH deployment (recommended)
+     - **Alternative Solution:** Configure Git merge strategy on Hostinger server
+       - Access Hostinger via SSH or File Manager terminal
+       - Navigate to your project directory: `cd public_html`
+       - Run: `git config pull.rebase false`
+       - Run: `git config pull.ff only`
+     - **Note:** SSH deployment is more reliable and recommended
 
 2. **Build fails in GitHub Actions:**
 
@@ -141,11 +143,30 @@ If using SSH deployment, add these secrets to your GitHub repository:
 4. Test by making a small change and pushing to main
 5. Monitor the deployment process in both GitHub Actions and Hostinger
 
-## Alternative: SSH Deployment (Recommended)
+## SSH Deployment (Recommended Solution)
 
-If Git deployment continues to have issues, consider using the SSH deployment method which is more reliable:
+Since Git deployment is causing persistent conflicts, we recommend using SSH deployment which is more reliable and bypasses Git conflicts entirely.
 
-1. Enable SSH access on your Hostinger account
-2. Use the SSH workflow provided in section 4 of this guide
-3. Add your Hostinger credentials as GitHub secrets
-4. This method directly uploads files without Git conflicts
+### Setup SSH Deployment:
+
+1. **Enable SSH on Hostinger:**
+   - Log in to Hostinger hPanel
+   - Go to **Advanced** → **SSH Access**
+   - Enable SSH access and note your credentials
+
+2. **Add GitHub Secrets:**
+   - Go to your GitHub repository → **Settings** → **Secrets and variables** → **Actions**
+   - Add these secrets:
+     - `HOSTINGER_HOST`: Your server hostname (e.g., `srv123.hostinger.com`)
+     - `HOSTINGER_USERNAME`: Your SSH username
+     - `HOSTINGER_PASSWORD`: Your SSH password
+     - `HOSTINGER_PORT`: SSH port (usually `22`)
+
+3. **Use the SSH Workflow:**
+   - The repository includes `.github/workflows/hostinger-ssh-deploy.yml`
+   - This workflow builds your app and directly uploads files via SSH
+   - No Git conflicts or branch issues
+
+4. **Disable Git Deployment:**
+   - Remove the Git deployment configuration from Hostinger
+   - This prevents conflicts between SSH and Git deployment methods
