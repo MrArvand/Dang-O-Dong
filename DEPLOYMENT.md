@@ -102,6 +102,13 @@ If using SSH deployment, add these secrets to your GitHub repository:
    - Ensure the `public_html` directory is empty
    - Check that the branch name matches exactly (`hostinger-deploy`)
    - Verify repository URL is correct
+   - **If you get "divergent branches" error:**
+     - This happens when Hostinger's local Git repo conflicts with the remote
+     - Solution: Configure Git merge strategy on Hostinger server
+     - Run this command via SSH or File Manager terminal:
+       ```bash
+       git config --global pull.rebase false
+       ```
 
 2. **Build fails in GitHub Actions:**
 
@@ -127,5 +134,18 @@ If using SSH deployment, add these secrets to your GitHub repository:
 
 1. Push this workflow to your repository
 2. Configure Hostinger Git deployment with the `hostinger-deploy` branch
-3. Test by making a small change and pushing to main
-4. Monitor the deployment process in both GitHub Actions and Hostinger
+3. **If you encounter "divergent branches" error on Hostinger:**
+   - Access your Hostinger server via SSH or File Manager terminal
+   - Run: `git config --global pull.rebase false`
+   - This configures Git to use merge strategy instead of rebase
+4. Test by making a small change and pushing to main
+5. Monitor the deployment process in both GitHub Actions and Hostinger
+
+## Alternative: SSH Deployment (Recommended)
+
+If Git deployment continues to have issues, consider using the SSH deployment method which is more reliable:
+
+1. Enable SSH access on your Hostinger account
+2. Use the SSH workflow provided in section 4 of this guide
+3. Add your Hostinger credentials as GitHub secrets
+4. This method directly uploads files without Git conflicts
